@@ -1,0 +1,33 @@
+
+Title
+Exercise alleviates skin inflammation by altering the skin microbiota
+
+
+Abstract
+
+Exercise offers nearly universal benefits to organs throughout the body, yet its effects on the skin remain largely unexplored. By collecting skin samples from an exercise cohort and establishing a voluntary exercise mouse model, we demonstrated that exercise possesses both preventive and therapeutic effects against chronic inflammatory skin diseases. Exercise shapes a unique skin microbiome by regulating glandular secretion, significantly increasing colonization by Staphylococcus epidermidis (S. epidermidis) in physically active individuals. Concurrently, we discovered that exercise upregulates systemic lipid metabolism and substantially increases the secretion of tripalmitoleoylglycerol (TPG) into the epidermal lipid barrier. S. epidermidis hydrolyzes this glyceride via lipase to produce palmitoleic acid (POA), and this small molecule metabolite activates the PPARγ-DGAT2 signaling pathway in keratinocytes to protect the skin barrier. This reveals that exercise modulates lipid metabolism in the host and the skin microenvironment, offering novel insights into exercise interventions for chronic inflammatory skin diseases.
+
+Graphical Abastract
+./figure/TOC.png
+
+
+Code
+
+介绍./code/*.R
+
+
+DATA AVAILABILITY
+
+•	Transcriptomic, metagenomic, and single-cell sequencing data have been submitted to the Gene Expression Omnibus (GEO) and Genome Sequence Archive (GSA) under the accession number PRJNA1398978, PRJNA1398982, PRJCA058871 and PRJCA060441. These datasets will be publicly accessible after the confidentiality period expires. 
+•	Any additional information required to reanalyze the data reported in this paper is available from the lead contact upon request.
+
+
+
+CITATION
+
+Exercise alleviates skin inflammation by altering the skin microbiota; Submit & Under Review, 2026
+
+
+
+Lead contact
+Gaofeng Wang (gwang45@jhmi.edu)
