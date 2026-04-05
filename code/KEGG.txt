@@ -1,0 +1,45 @@
+# Check current working directory
+getwd()
+
+# Set working directory (Replace with your actual path)
+setwd("path/to/your/working_directory")
+
+# Read the CSV file (Replace with your actual file name)
+# Note: The result of this read.csv is not assigned to a variable in the original script.
+# Assuming it was just for a quick check.
+read.csv("your_data_file.csv")
+
+# Load required packages
+library(ggplot2)
+
+# Create a data frame (Categories anonymized)
+df <- data.frame(
+  ID = 1:8,
+  Count = c(38, 24, 21, 19, 16, 15, 4, 4),
+  Category = c("Pathway")
+)
+
+# Create a bar plot
+p <- ggplot(df, aes(x = reorder(Category, Count), y = Count)) +
+  geom_bar(stat = "identity", fill = "#5C5AF3", color = "black", width = 0.8) +  # Set bar width to 0.8
+  coord_flip() +
+  labs(x = " ", y = "Occurrence", title = " ") +
+  scale_x_discrete(position = "top") +  # Move the x-axis (which is actually the y-axis after coord_flip()) to the top
+  scale_y_continuous(sec.axis = sec_axis(~., name = "")) +  # Add a secondary y-axis (which is actually the x-axis after coord_flip())
+  theme_minimal() +
+  theme(
+    text = element_text(size = 20, color = "black"),  # Global text size and color
+    axis.title = element_text(size = 20, color = "black"),  # Axis title size and color
+    axis.text.x = element_text(size = 20, color = "black"),  # X-axis text size and color
+    axis.text.y = element_text(size = 20, color = "black"),  # Y-axis text size and color
+    plot.title = element_text(size = 20, color = "black"),  # Plot title size and color
+    panel.grid.major = element_blank(),  # Remove major grid lines
+    panel.grid.minor = element_blank(),  # Remove minor grid lines
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 1)  # Add a black border line
+  )
+
+# Display the plot
+print(p)
+
+# Save as a PDF file
+ggsave("pathway_analysis_output.pdf", plot = p, width = 10, height = 8)

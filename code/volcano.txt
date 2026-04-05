@@ -1,0 +1,36 @@
+# Volcano plot
+# Load necessary libraries
+library(tidyverse)
+
+# Read the CSV file (Replace with your actual file path)
+df <- read.csv("your_data_file.csv")
+
+# Calculate -log10(p-value)
+df <- df %>%
+  mutate(log10_pval = -log10(raw.pval))
+
+# Draw volcano plot - map colors to Upregulated, Downregulated, and Not Significant
+p <- ggplot(df, aes(x = log2(FC), y = log10_pval)) +
+  geom_point(aes(color = ifelse(log10_pval > 1.30103 & abs(log2(FC)) > 0.5, 
+                                ifelse(log2(FC) > 0, "Upregulated", "Downregulated"), 
+                                "Not Significant")), 
+             size = 2.5) +  # Set colors based on significance and fold change thresholds
+  scale_color_manual(values = c("Upregulated" = "#C1211B", 
+                                "Downregulated" = "#193F78", 
+                                "Not Significant" = "grey")) +  # Set colors manually
+  geom_vline(xintercept = c(-0.5, 0.5), linetype = "dashed", color = "grey") +  # Add x-axis threshold lines
+  geom_hline(yintercept = 1.30103, linetype = "dashed", color = "grey") +  # Add y-axis threshold line
+  theme_minimal() +
+  labs(x = "log2(FC)", y = "-log10(p-value)", title = "Volcano Plot") +
+  theme(
+    text = element_text(size = 20, color = "black"),  # Global text size and color
+    axis.title = element_text(size = 20, color = "black"),  # Axis title size and color
+    axis.text = element_text(size = 20, color = "black"),  # Axis text size and color
+    plot.title = element_text(size = 20, color = "black")  # Plot title size and color
+  )
+
+# Display the plot
+print(p)
+
+# Save the plot to a PDF file
+ggsave("volcano_plot_output.pdf", p, width = 14, height = 3.5, dpi = 300)

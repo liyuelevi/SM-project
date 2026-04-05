@@ -1,0 +1,54 @@
+
+# Load necessary libraries
+library(tidyverse)
+
+# Set working directory (Replace with your actual path)
+setwd("path/to/your/working_directory")
+
+# Read the CSV file (Replace with your actual file name)
+df <- read.csv("your_data_file.csv")
+
+# Filter specific groups
+df_filtered <- df %>% 
+  filter(Group %in% c("Group_A", "Group_B", "Group_C", "Group_D"))
+
+# Convert data from wide to long format
+df_long <- df_filtered %>%
+  gather(key = "Component", value = "Value", PC1:PC3)
+
+# Convert data from long back to wide format
+df_wide <- df_long %>%
+  spread(key = Component, value = Value)
+
+# Modify group names
+df_wide <- df_wide %>%
+  mutate(Group = case_when(
+    Group == "Raw_Group_E" ~ "Group_E",
+    Group == "Raw_Group_F" ~ "Group_F",
+    Group == "Raw_Group_G" ~ "Group_G",
+    Group == "Raw_Group_H" ~ "Group_H",
+    TRUE ~ Group # Keep the original name for groups that do not need to be renamed
+  ))
+
+# Draw PCA plot, including points and confidence ellipses for all groups in the same plot
+# Adjust colors
+p <- ggplot(df_wide, aes(x = PC1, y = PC2, color = Group)) +
+  geom_point(size = 6) + # Draw points
+  stat_ellipse(aes(group = Group), type = "t", level = 0.95, linewidth = 1.5) + # Draw confidence ellipses using t-distribution, 95% confidence level, and thickened lines
+  theme_minimal() +
+  labs(x = "PC1", y = "PC2", title = "PCA Plot with Confidence Ellipses") +
+  theme(
+    line = element_line(linewidth = 1.5), # Set line width
+    text = element_text(size = 20), # Adjust the size of all text
+    plot.title = element_text(size = 20, face = "bold"), # Adjust title size and style
+    axis.title = element_text(size = 20), # Adjust axis title size
+    axis.text = element_text(size = 20), # Adjust axis text size
+    panel.border = element_rect(colour = "black", fill = NA, size = 2) # Add a black border line
+  ) +
+  scale_color_manual(values = c("Group_A" = "#5C5AF3", "Group_B" = "#F94942", "Group_C" = "#515759", "Group_D" = "#901A0E"))
+
+# Display the plot
+print(p)
+
+# Save the plot
+ggsave("PCA_Plot_output.pdf", p, width = 8, height = 6, units = "in", dpi = 300)

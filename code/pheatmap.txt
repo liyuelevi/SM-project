@@ -1,0 +1,27 @@
+# Set working directory (Replace with your actual path)
+setwd("path/to/your/working_directory")
+
+# Install and load the pheatmap package
+if (!requireNamespace("pheatmap", quietly = TRUE)) install.packages("pheatmap")
+library(pheatmap)
+
+# Read the data (Replace with your actual file name)
+data <- read.csv("your_data_file.csv", header = TRUE, sep = ",", stringsAsFactors = FALSE)
+
+# Set the first column as row names and remove it from the data frame
+rownames(data) <- data[,1]
+data <- data[,-1]
+
+# Create a custom color gradient
+colors <- colorRampPalette(c("gray", "blue", "red"))(100)
+
+# Draw the heatmap without clustering columns (samples), applying custom colors, and adding a black border to each cell
+p <- pheatmap(data_subset, cluster_cols = FALSE, color = colors, border_color = "black")
+
+# Display the plot
+p
+
+# Save the plot
+# Note: Since pheatmap doesn't generate standard ggplot objects, ggsave might require the 'ggplotify' package or saving via base R functions like pdf(). 
+# Provided here as per your original script.
+ggsave("heatmap_output.pdf", p, width = 10, height = 4, units = "in", dpi = 300)

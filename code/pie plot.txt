@@ -1,0 +1,45 @@
+# Load necessary libraries
+library(tidyverse)
+library(ggplot2)
+
+# Read the lipid count data (Replace with your actual file name)
+lipid_data <- read.csv("your_data_file.csv", header = TRUE)
+
+# Calculate total lipid counts
+total_counts <- sum(lipid_data$COUNTS)
+
+# Calculate percentages
+lipid_data <- lipid_data %>%
+  mutate(Percentage = COUNTS / total_counts * 100)
+
+# Arrange data in completely reversed order as required
+lipid_data$ID <- factor(lipid_data$ID, levels = rev(c("TG", "Cer", "DG", "WE", "PE", "CL", "PC", "PG", "SM", "OAHFA", "Hex1Cer", "PS", "PI", "CerP", "PA", "Hex2Cer", "PIP", "SPH", "CerG2GNAc1", "GM", "ZyE", "Hex3Cer", "LPC", "MG", "AcCa", "Co", "LPG", "phSM", "SiE", "ChE", "GT", "LPI")))
+
+# Expand custom color palette
+custom_colors <- rep(c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3", "#FF7F00", 
+                       "#FFFF33", "#A65628", "#F781BF", "#999999", "#66C2A5", 
+                       "#FC8D62", "#8DA0CB", "#E78AC3", "#A6D854", "#FFD92F"), 
+                     length.out = 32)  # Ensure sufficient number of colors
+
+# Create pie/donut chart
+p <- ggplot(lipid_data, aes(x = "", y = Percentage, fill = ID)) +
+  geom_bar(stat = "identity", width = 1, color = "black") +  # Add black borders
+  coord_polar("y", start = 0) +
+  theme_void() +
+  labs(title = "Percentage of Lipids in Total Lipids") +
+  theme(
+    text = element_text(size = 15, color = "black"),  # Global text size and color
+    plot.title = element_text(size = 20, hjust = 0.5),  # Center the title
+    legend.position = "bottom"  # Place legend at the bottom
+  ) +
+  scale_fill_manual(values = custom_colors, breaks = rev(levels(lipid_data$ID))) +  # Use expanded custom colors and reverse legend order
+  geom_text(aes(label = ID), 
+            position = position_stack(vjust = 0.5),  # Place labels at the center of each slice
+            size = 4, color = "black") +  # Set label size and color
+  annotate("point", x = 0, y = 0, size = 70, color = "white")  # Add a white inner circle to create a donut chart effect
+
+# Display the plot
+print(p)
+
+# Save the plot
+ggsave("lipid_donut_chart_output.pdf", p, width = 10, height = 10, dpi = 300)
